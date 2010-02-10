@@ -1,8 +1,3 @@
-/* UDP Tunnel - util.c
- * 2009 - Felipe Astroza
- * Under GPLv2 license (see LICENSE)
- */
-
 #include <stdlib.h>
 #include <netinet/in.h>
 

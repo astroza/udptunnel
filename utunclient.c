@@ -1,8 +1,3 @@
-/* UDP Tunnel - utunclient.c
- * 2009 - Felipe Astroza
- * Under GPLv2 license (see LICENSE)
- */
-
 #include <stdio.h>
 #include <string.h>
 #include <sys/poll.h>
@@ -15,8 +10,8 @@
 #include <utun/socket.h>
 #include <utun/tun.h>
 #include <utun/util.h>
-#include <utun/conf.h>
 
+#define MTU 1500
 #define PASSPHRASE v[3]
 
 int main(int c, char **v)
@@ -49,6 +44,7 @@ int main(int c, char **v)
 	pfd[1].events = POLLIN;
 
 	sendto(pfd[1].fd, PASSPHRASE, strlen(PASSPHRASE), 0, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+	fromlen = sizeof(struct sockaddr_in);
 	puts("UDP TUNNEL Running..");
 	while(1) {
 		ret = poll(pfd, 2, -1);
@@ -63,7 +59,6 @@ int main(int c, char **v)
 
 		if(pfd[1].revents & POLLIN) {
 			buflen = socket_get_packet(pfd[1].fd, &from, &fromlen, buf, sizeof(buf));
-
 			if(serv_addr.sin_addr.s_addr == from.sin_addr.s_addr && serv_addr.sin_port == from.sin_port)
 				tun_put_packet(pfd[0].fd, buf, buflen);
 		}

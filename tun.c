@@ -1,7 +1,3 @@
-/* UDP Tunnel - tun.c
- * 2009 - Felipe Astroza
- * Under GPLv2 license (see LICENSE)
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,7 +22,6 @@ int tun_create(const char *name)
 	memset(&ifr, 0, sizeof(ifr));
 	ifr.ifr_flags = IFF_TUN;
 	strncpy(ifr.ifr_name, name, IFNAMSIZ);
-
 	if(ioctl(fd, TUNSETIFF, (void *)&ifr) == -1) {
 		perror("perror");
 		exit(1);

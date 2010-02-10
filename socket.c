@@ -1,8 +1,3 @@
-/* UDP Tunnel - socket.c
- * 2009 - Felipe Astroza
- * Under GPLv2 license (see LICENSE)
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
