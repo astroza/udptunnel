@@ -44,6 +44,12 @@ int main(int c, char **v)
 	tun_fd = tun_create();
 	client_fd = socket_create(local_port);
 	fromlen = sizeof(from);
+
+#ifdef __linux__
+        exec_script("linux_server.sh");
+#else
+        exec_script("osx_server.sh");
+#endif
 	
 	FD_ZERO(&rfds);
 	while(1) {
