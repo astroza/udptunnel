@@ -14,12 +14,11 @@ int strtoport(char *str, unsigned short *out)
 	return *err == 0;
 }
 
-void exec_script(const char *name)
+void exec_script(const char *name, const char *arg)
 {
 	int pid, status;
 	char path[255] = "";
-	char *const args[2] = {path, NULL};
-
+	char *const args[] = {path, (char *)arg, NULL};
 	strcat(path, "scripts/");
 	strcat(path, name);
 

@@ -46,9 +46,9 @@ int main(int c, char **v)
 	fromlen = sizeof(from);
 
 #ifdef __linux__
-        exec_script("linux_server.sh");
+        exec_script("linux_server.sh", v[1]);
 #else
-        exec_script("osx_server.sh");
+        exec_script("osx_server.sh", v[1]);
 #endif
 	
 	FD_ZERO(&rfds);

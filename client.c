@@ -63,9 +63,9 @@ int main(int c, char **v)
 	}
 
 #ifdef __linux__
-	exec_script("linux_client.sh");
+	exec_script("linux_client.sh", v[1]);
 #else
-	exec_script("osx_client.sh");
+	exec_script("osx_client.sh", v[1]);
 #endif
 	puts("+ Auth is OK.\n+ UDP Tunnel is running.");
 	FD_ZERO(&rfds);
