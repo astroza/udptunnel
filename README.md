@@ -8,18 +8,18 @@ Updates
 * BSD & Mac OSX support
 * Auto-config scripts for routing
 
-Entel prepago (portal cautivo)
+Mobile network prepaid
 =========
 Requirements
 ---------
-* Entel PCS prepaid chip
+* A prepaid chip
 * Edge/3G Cellphone able to share Internet
 * A full access Internet connection (home ADSL?)
 
 Usage
 ---------
 So far, I've tested this technique in an OSX machine (connected to cellphone) and a Linux machine (connected to full access Internet connection).
-Once you have access to Entel's portal cautivo, you can access to limited services, such as DNS, and TCP ports distinct to 80 (HTTP).
+Once you have access to mobile operator's portal cautivo, you can access to limited services, such as DNS, and TCP ports distinct to 80 (HTTP).
 I don't use proxy over TCP because TCP connections receive a arbitrary RESET at any time. Also, I figure out that 53 UDP port 
 has the best performance, with lower packet loss.
 
