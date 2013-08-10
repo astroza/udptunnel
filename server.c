@@ -25,6 +25,7 @@ int main(int c, char **v)
 	int ret;
 	int tun_fd;
 	int client_fd;
+	int has_client = 0;
 	unsigned int pass_len;
 
 	tp = (struct tunnel_packet *)buf;
@@ -60,7 +61,7 @@ int main(int c, char **v)
 		if(ret == -1)
 			break;
 
-		if(FD_ISSET(tun_fd, &rfds)) {
+		if(FD_ISSET(tun_fd, &rfds) && has_client) {
 			buflen = tun_get_packet(tun_fd, tp->data, sizeof(buf)-sizeof(struct tunnel_packet));
 			tp->type = TRAFFIC_PACKET;
 			tp->cmd = 0;
@@ -76,6 +77,7 @@ int main(int c, char **v)
 				if(buflen-sizeof(struct tunnel_packet) == pass_len && strncmp(tp->data, PASSPHRASE, pass_len) == 0) {
 					client_addr = from;
 					tp->cmd = OK_CMD;
+					has_client = 1;
 				} else
 					tp->cmd = ERROR_CMD;
 				socket_put_packet(client_fd, &from, sizeof(from), buf,  sizeof(struct tunnel_packet));
