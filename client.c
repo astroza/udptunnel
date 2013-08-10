@@ -62,6 +62,11 @@ int main(int c, char **v)
 		return 1;
 	}
 
+#ifdef __linux__
+	exec_script("linux_client.sh");
+#else
+	exec_script("osx_client.sh");
+#endif
 	puts("+ Auth is OK.\n+ UDP Tunnel is running.");
 	FD_ZERO(&rfds);
 	while(1) {
