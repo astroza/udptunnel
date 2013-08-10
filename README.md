@@ -42,7 +42,7 @@ And that's all!!, you'll have a slow (just a bit) but full access Internet conne
 Future
 =========
 * iPhone port (computer connected to cellphone will not be necessary)
-* Multi-client server (at this time, the server support one client only)
+* Multi-client server (at this time, the server is one client only)
 * Data compressing
 
 F. Astroza
