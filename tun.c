@@ -4,29 +4,40 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <net/if.h> 
+#include <sys/socket.h>
+#include <net/if.h>
+#ifdef __linux__ 
 #include <linux/if_tun.h>
+#else
+#include <net/if_utun.h>
+#endif
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-int tun_create(const char *name)
+#ifdef __linux__
+static const char device_name[] = "/dev/net/tun";
+#else
+static const char device_name[] = "/dev/tun0";
+#endif
+
+int tun_create()
 {
-	struct ifreq ifr;
 	int fd;
 
-	if ((fd = open("/dev/net/tun",O_RDWR)) == -1) {
+	if ((fd = open(device_name,O_RDWR)) == -1) {
 		perror("open");
 		exit(1);
 	}
-
+#ifdef __linux__
+	struct ifreq ifr;
 	memset(&ifr, 0, sizeof(ifr));
 	ifr.ifr_flags = IFF_TUN;
-	strncpy(ifr.ifr_name, name, IFNAMSIZ);
+	strncpy(ifr.ifr_name, "tun0", IFNAMSIZ);
 	if(ioctl(fd, TUNSETIFF, (void *)&ifr) == -1) {
 		perror("perror");
 		exit(1);
 	}
-
+#endif
 	return fd;
 }
 
