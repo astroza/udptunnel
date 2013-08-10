@@ -39,4 +39,10 @@ On OSX client (with limited Internet access)
 
 And that's all!!, you'll have a slow (just a bit) but full access Internet connection!. I've measured 0.210 MBPS in download.
 
+Future
+=========
+* iPhone port (computer connected to cellphone will not be necessary)
+* Multi-client server (at this time, the server support one client only)
+* Data compressing
+
 F. Astroza
