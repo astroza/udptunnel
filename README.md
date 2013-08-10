@@ -20,7 +20,7 @@ Usage
 ---------
 So far, I've tested this technique in an OSX machine (connected to cellphone) and a Linux machine (connected to full access Internet connection).
 Once you have access to mobile operator's portal cautivo, you can access to limited services, such as DNS, and TCP ports distinct to 80 (HTTP).
-I don't use proxy over TCP because TCP connections receive a arbitrary RESET at any time. Also, I figure out that 53 UDP port 
+I don't use proxy over TCP because TCP connections receive an arbitrary RESET at any time. Also, I figure out that 53 UDP port 
 has the best performance, with lower packet loss.
 
 You must:
