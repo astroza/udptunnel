@@ -12,9 +12,9 @@ Entel prepago (portal cautivo)
 =========
 On Linux server (with Internet access)
 
-./server 53 <your_password>
+./server 53 _your_password_
 
 On OSX client (with limited Internet access)
 
-./client <server (with Internet access)> 53 <your_password>
+./client _server_(with_Internet_access) 53 _your_password
 
