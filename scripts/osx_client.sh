@@ -7,7 +7,7 @@ route add -host $provider $old_default
 route delete default
 route add default 10.0.0.1
 
-# El portal cautivo de Entel tiene un servidor DNS limitado, solo responde a 
+# El portal cautivo tiene un servidor DNS limitado, solo responde a 
 # direcciones frecuentes, populares, como facebook o google.
 
 # Lo cambio al DNS de Google 8.8.8.8
