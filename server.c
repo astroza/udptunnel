@@ -61,11 +61,12 @@ int main(int c, char **v)
 		if(ret == -1)
 			break;
 
-		if(FD_ISSET(tun_fd, &rfds) && has_client) {
+		if(FD_ISSET(tun_fd, &rfds)) {
 			buflen = tun_get_packet(tun_fd, tp->data, sizeof(buf)-sizeof(struct tunnel_packet));
 			tp->type = TRAFFIC_PACKET;
 			tp->cmd = 0;
-			socket_put_packet(client_fd, &client_addr, sizeof(client_addr), buf, buflen + sizeof(struct tunnel_packet));
+			if(has_client)
+				socket_put_packet(client_fd, &client_addr, sizeof(client_addr), buf, buflen + sizeof(struct tunnel_packet));
 		}
 
 		if(FD_ISSET(client_fd, &rfds)) {
