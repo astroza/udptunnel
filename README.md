@@ -39,6 +39,35 @@ On OSX client (with limited Internet access)
 
 And that's all!!, you'll have a slow (just a bit) but full access Internet connection!. I've measured 0.210 MBPS in download.
 
+How it works
+=========
+
+By default mobile provider blocks any packet but UDP packet, unless you pay for the service. My method consists in sending
+TCP/UDP/ICMP frames as payload of an UDP packet to a known host (your server). Your server reinjects these frames to Internet.
+
+PC to Internet
+PC -> Cellphone -> [limited Internet] -> Your server -> [Internet]
+
+Internet to PC
+[Internet] -> Your server -> [limited Internet] -> Cellphone -> PC
+
+UDP Packet payload
+---------
+The messages between _your _server and _PC are UDP packets with the next payload:
+```
+ ----------- ------------ ------------------------------
+|     1    |        2    |              3               |
+|PACKET_TYPE| PACKET_CMD |      TCP/UDP/ICMP Packet     |
+| (1 byte)  | (1 byte)   |        (variable size)       |
+ ----------- ------------ ------------------------------
+```
+Every time a UDP packet arrives to _your _server or _PC, it must be disassembled and reinjected to OS network stack.
+
+It works transparently
+---------
+For reinjecting to OS network stack I use tun driver. It helps to create virtual network interfaces that receive traffic
+from a userspace application.
+
 Future
 =========
 * iPhone port (computer connected to cellphone will not be necessary)
