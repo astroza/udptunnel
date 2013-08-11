@@ -3,6 +3,7 @@ udptunnel
 
 It allows TCP/UDP/ICMP traffic over UDP tunneling. It's useful to avoid Internet restrictions.
 
+Demo: http://www.youtube.com/watch?v=A0jLF2ipirg
 Updates
 =========
 * BSD & Mac OSX support
