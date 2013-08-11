@@ -55,13 +55,17 @@ UDP Packet payload
 ---------
 The messages between _your server_ and _PC_ are UDP packets with the next payload:
 ```
- ----------- ------------ ------------------------------
-|     1    |        2    |              3               |
-|PACKET_TYPE| PACKET_CMD |      TCP/UDP/ICMP Packet     |
-| (1 byte)  | (1 byte)   |        (variable size)       |
- ----------- ------------ ------------------------------
+ ----------- ------------ --------------------------------------------
+|     1    |        2    |                        3                   |
+|PACKET_TYPE| PACKET_CMD |      TCP/UDP/ICMP Packet or control data   |
+| (1 byte)  | (1 byte)   |               (variable size)              |
+ ----------- ------------ --------------------------------------------
 ```
 Every time a UDP packet arrives to _your server_ or _PC_, it must be disassembled and reinjected to OS network stack.
+
+There are 2 packet types:
+* CONTROL: For authentication and notification
+* TRAFFIC: For transporting another packet (TCP/UDP/ICMP).
 
 It works transparently
 ---------
