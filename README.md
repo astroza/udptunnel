@@ -72,6 +72,9 @@ It works transparently
 For reinjecting to OS network stack I use tun driver. It helps to create virtual network interfaces that receive traffic
 from an userspace application.
 
+Thanks to the routing scripts (in scripts/) you don't need do anything to get the whole system with Internet access. Routing
+scripts are called automatically.
+
 Future
 =========
 * iPhone port (computer connected to cellphone will not be necessary)
