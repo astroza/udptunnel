@@ -70,7 +70,7 @@ There are 2 packet types:
 It works transparently
 ---------
 For reinjecting to OS network stack I use tun driver. It helps to create virtual network interfaces that receive traffic
-from a userspace application.
+from an userspace application.
 
 Future
 =========
