@@ -62,7 +62,7 @@ The messages between _your server_ and _PC_ are UDP packets with the next payloa
 | (1 byte)  | (1 byte)   |               (variable size)              |
  ----------- ------------ --------------------------------------------
 ```
-Every time a UDP packet arrives to _your server_ or _PC_, it must be disassembled and reinjected to OS network stack.
+Each UDP packet arrives to _your server_ or _PC_ must be disassembled and reinjected to OS network stack.
 
 There are 2 packet types:
 * CONTROL: For authentication and notification
