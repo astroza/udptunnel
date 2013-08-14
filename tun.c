@@ -25,35 +25,56 @@
 #include <fcntl.h>
 #include <sys/socket.h>
 #include <net/if.h>
+#include <string.h>
 #ifdef __linux__ 
 #include <linux/if_tun.h>
 #else
 #include <net/if_utun.h>
+#include <sys/sys_domain.h>
+#include <sys/kern_control.h>
 #endif
 #include <sys/ioctl.h>
 #include <unistd.h>
-
-#ifdef __linux__
-static const char device_name[] = "/dev/net/tun";
-#else
-static const char device_name[] = "/dev/tun0";
-#endif
 
 int tun_create()
 {
 	int fd;
 
-	if ((fd = open(device_name,O_RDWR)) == -1) {
-		perror("open");
-		exit(1);
-	}
 #ifdef __linux__
+        if ((fd = open("/dev/net/tun", O_RDWR)) == -1) {
+                perror("open");
+                exit(1);
+	}
 	struct ifreq ifr;
 	memset(&ifr, 0, sizeof(ifr));
 	ifr.ifr_flags = IFF_TUN|IFF_NO_PI;
 	strncpy(ifr.ifr_name, "tun0", IFNAMSIZ);
 	if(ioctl(fd, TUNSETIFF, (void *)&ifr) == -1) {
 		perror("perror");
+		exit(1);
+	}
+#else
+	struct sockaddr_ctl sc;
+	struct ctl_info ctlInfo;
+
+	fd = socket(PF_SYSTEM, SOCK_DGRAM, SYSPROTO_CONTROL);
+	if(fd < 0) { 
+		perror ("socket");
+		exit(1);
+	}
+	memset(&ctlInfo, 0, sizeof(ctlInfo));
+	strncpy(ctlInfo.ctl_name, UTUN_CONTROL_NAME, sizeof(ctlInfo.ctl_name));
+	if (ioctl(fd, CTLIOCGINFO, &ctlInfo) == -1) {
+		perror("CTLIOCGINFO");
+		exit(1);
+	}
+	sc.sc_family = PF_SYSTEM;
+	sc.ss_sysaddr = AF_SYS_CONTROL;
+	sc.sc_id = ctlInfo.ctl_id;
+	sc.sc_len = sizeof(sc);
+	sc.sc_unit = 0;
+	if(connect(fd, (struct sockaddr *)&sc, sizeof(sc)) == -1) {
+		perror("connect");
 		exit(1);
 	}
 #endif

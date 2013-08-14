@@ -68,7 +68,7 @@ int main(int c, char **v)
 #ifdef __linux__
         exec_script("linux_server.sh", v[1]);
 #else
-        exec_script("osx_server.sh", v[1]);
+        exec_script("xnu_server.sh", v[1]);
 #endif
 	
 	FD_ZERO(&rfds);
