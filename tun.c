@@ -47,7 +47,7 @@ int tun_create()
 	}
 	struct ifreq ifr;
 	memset(&ifr, 0, sizeof(ifr));
-	ifr.ifr_flags = IFF_TUN|IFF_NO_PI;
+	ifr.ifr_flags = IFF_TUN;
 	strncpy(ifr.ifr_name, "tun0", IFNAMSIZ);
 	if(ioctl(fd, TUNSETIFF, (void *)&ifr) == -1) {
 		perror("perror");

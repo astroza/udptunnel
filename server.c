@@ -84,15 +84,24 @@ int main(int c, char **v)
 			buflen = tun_get_packet(tun_fd, tp->data, sizeof(buf)-sizeof(struct tunnel_packet));
 			tp->type = TRAFFIC_PACKET;
 			tp->cmd = 0;
-			if(has_client)
+			if(has_client) {
+				/* XNU Compat */
+				*((unsigned int *)tp->data) = AF_INET;
+				/* ********** */
 				socket_put_packet(client_fd, &client_addr, sizeof(client_addr), buf, buflen + sizeof(struct tunnel_packet));
+			}
 		}
 
 		if(FD_ISSET(client_fd, &rfds)) {
 			buflen = socket_get_packet(client_fd, &from, &fromlen, buf, sizeof(buf));
 			if(tp->type == TRAFFIC_PACKET) {
-				if(client_addr.sin_addr.s_addr == from.sin_addr.s_addr && client_addr.sin_port == from.sin_port)
+				if(client_addr.sin_addr.s_addr == from.sin_addr.s_addr && client_addr.sin_port == from.sin_port) {
+					/* XNU Compat */
+					*((unsigned short *)&tp->data[2]) = (unsigned short)(*((unsigned int *)tp->data));
+					*((unsigned short *)tp->data) = 0;
+					/* *********** */
 					tun_put_packet(tun_fd, tp->data, buflen-sizeof(struct tunnel_packet));
+				}
 			} else if(tp->type == CONTROL_PACKET && tp->cmd == AUTH_CMD) {
 				if(buflen-sizeof(struct tunnel_packet) == pass_len && strncmp(tp->data, PASSPHRASE, pass_len) == 0) {
 					client_addr = from;
