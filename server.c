@@ -86,7 +86,7 @@ int main(int c, char **v)
 			tp->cmd = 0;
 			if(has_client) {
 				/* XNU Compat */
-				*((unsigned int *)tp->data) = AF_INET;
+				*((unsigned int *)tp->data) = htons(AF_INET);
 				/* ********** */
 				socket_put_packet(client_fd, &client_addr, sizeof(client_addr), buf, buflen + sizeof(struct tunnel_packet));
 			}
