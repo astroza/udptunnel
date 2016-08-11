@@ -37,6 +37,7 @@ On OSX client (with limited Internet access)
 ```
 ./client <public_address> 53 <your_password>
 ```
+Note: You may need a tuntap module for OSX http://tuntaposx.sourceforge.net/download.xhtml if you get an error saying ``open: No such file or directory``
 
 And that's all!!, you'll have a slow (just a bit) but full access Internet connection!. I've measured 0.210 MBPS in download.
 
