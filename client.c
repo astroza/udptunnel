@@ -24,7 +24,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-
+#include <netdb.h>
 
 #include <utun/socket.h>
 #include <utun/tun.h>
@@ -48,14 +48,22 @@ int main(int c, char **v)
 	tp = (struct tunnel_packet *)buf;
 
 	if(c < 4) {
-		printf("TCP/UDP/ICMP Tunnel over UDP\n"
-			"%s <ip address> <port> <passphrase>\n", v[0]);
+		fprintf(stderr, "TCP/UDP/ICMP Tunnel over UDP\n"
+			"%s <hostname> <port> <passphrase>\n", v[0]);
 		return 0;
 	}
 
-	server_addr.sin_addr.s_addr = inet_addr(v[1]);
+	struct hostent* host_info = gethostbyname(v[1]);
+	if (host_info == NULL) {
+		fprintf(stderr, "%s: Invalid hostname or IPv4 address\n", v[1]);
+		return 1;
+	}
+
+	memset(&server_addr, 0, sizeof(server_addr));
+	memset(&from, 0, sizeof(from));
+	memcpy(&server_addr.sin_addr, host_info->h_addr, host_info->h_length);
 	if(strtoport(v[2], &server_addr.sin_port) == 0) {
-		printf("%s: Invalid port\n", v[0]);
+		fprintf(stderr, "%s: Invalid port\n", v[0]);
 		return 1;
 	}
 	server_addr.sin_family = AF_INET;
