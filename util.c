@@ -23,6 +23,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
+#include "log.h"
 
 int strtoport(char *str, unsigned short *out)
 {
@@ -43,14 +44,14 @@ void exec_script(const char *name, const char *arg)
 
 	pid = fork();
 	if(pid == 0) {
-		printf("  + Executing %s\n", path); 
+		log_info("[%d] Executing: %s",getpid(),path);
 		exit(execv(path, args));
 	} else {
 		waitpid(pid, &status, 0);
 		if(WEXITSTATUS(status) == 0)
-			puts("+ Script execution is OK");
+			log_info("[%d] Execution: OK",getpid());
 		else
-			puts("+ Script execution has a error");
+			log_info("[%d] Execution: ERROR",getpid());
 	}
 }
 

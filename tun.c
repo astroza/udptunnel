@@ -32,6 +32,7 @@
 #endif
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include "log.h"
 
 #ifdef __linux__
 static const char device_name[] = "/dev/net/tun";
@@ -68,7 +69,7 @@ unsigned int tun_get_packet(int fd, char *buf, unsigned int bufsize)
 void tun_put_packet(int fd, char *buf, unsigned int buflen)
 {
 	if(write(fd, buf, buflen) == -1) {
-		perror("write");
+		log_error("tun_put_packet() buflen: %d", getpid(),buflen );
 		exit(1);
 	}
 }
